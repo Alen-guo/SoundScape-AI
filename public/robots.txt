@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://soundscape-ai.vercel.app/sitemap.xml
+Sitemap: https://soundscapeai.org/sitemap.xml
 
 # Crawl-delay for respectful crawling
 Crawl-delay: 1
@@ -19,4 +19,11 @@ Allow: /images/
 Allow: /*.svg
 Allow: /*.png
 Allow: /*.jpg
-Allow: /*.ico 
+Allow: /*.ico
+
+# Additional SEO directives
+# Allow search engines to index all important content
+Allow: /
+
+# Contact and important pages (optional future addition)
+# Disallow: /private/ 
