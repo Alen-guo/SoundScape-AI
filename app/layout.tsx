@@ -1,14 +1,17 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import React from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export const viewport = 'width=device-width, initial-scale=1'
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+}
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://soundscape-ai.vercel.app'),
+  metadataBase: new URL('https://soundscapeai.org'),
   title: 'SoundScape AI - Free Ambient Sound Generator for Focus & Relaxation',
   description: 'Create perfect ambient soundscapes online for free. Mix rain sounds, white noise, nature sounds, and fireplace audio for better focus, productivity, sleep, and relaxation. Alternative to A Soft Murmur with advanced features.',
   keywords: 'ambient sound generator, white noise generator, focus music, rain sounds, nature sounds online, productivity sounds, relaxation sounds, sleep sounds, fireplace sounds, ocean waves, background noise generator, ambient music, concentration sounds, meditation sounds, study music, work from home sounds, ADHD focus sounds, anxiety relief sounds, stress relief sounds, zen sounds, calm sounds, peaceful sounds, atmospheric sounds, soundscape creator, ambient noise maker, free ambient sounds, online sound mixer, focus app, productivity app, meditation app, sleep app, relaxation app, sound therapy, nature sound generator, forest sounds, storm sounds, waterfall sounds, bird sounds, wind sounds, ambient sound app, white noise app, pink noise, brown noise, environmental sounds, binaural beats, ASMR sounds, spa sounds, yoga sounds, breathing sounds, mindfulness sounds, zen meditation, deep sleep sounds, power nap sounds, study ambient, work focus sounds',
