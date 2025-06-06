@@ -1,0 +1,16 @@
+<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background rounded rectangle -->
+  <rect width="180" height="180" rx="40" fill="url(#gradient)"/>
+  
+  <!-- Wave lines -->
+  <path d="M45 67.5 Q67.5 45 90 67.5 T135 67.5" stroke="white" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <path d="M45 90 Q67.5 67.5 90 90 T135 90" stroke="white" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <path d="M45 112.5 Q67.5 90 90 112.5 T135 112.5" stroke="white" stroke-width="8" fill="none" stroke-linecap="round"/>
+</svg> 

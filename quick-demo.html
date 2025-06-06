@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoundScape AI - Quick Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes wave {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(1.5); }
+        }
+        .wave-bar {
+            animation: wave 1s ease-in-out infinite;
+        }
+        .wave-bar:nth-child(2) { animation-delay: 0.1s; }
+        .wave-bar:nth-child(3) { animation-delay: 0.2s; }
+        .wave-bar:nth-child(4) { animation-delay: 0.3s; }
+        .wave-bar:nth-child(5) { animation-delay: 0.4s; }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <div class="flex items-center justify-center gap-3 mb-4">
+                <div class="p-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full">
+                    <span class="text-white text-2xl">🌊</span>
+                </div>
+                <h1 class="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                    SoundScape AI
+                </h1>
+            </div>
+            <p class="text-xl text-gray-600 mb-2">Create perfect ambient soundscapes with AI</p>
+            <p class="text-gray-500">Quick demo - Mix synthetic sounds for focus and relaxation</p>
+            
+            <!-- 音频波形可视化装饰 -->
+            <div class="flex justify-center gap-1 mt-6">
+                <div class="w-1 h-4 bg-gradient-to-t from-blue-400 to-purple-500 rounded-full wave-bar"></div>
+                <div class="w-1 h-6 bg-gradient-to-t from-blue-400 to-purple-500 rounded-full wave-bar"></div>
+                <div class="w-1 h-3 bg-gradient-to-t from-blue-400 to-purple-500 rounded-full wave-bar"></div>
+                <div class="w-1 h-5 bg-gradient-to-t from-blue-400 to-purple-500 rounded-full wave-bar"></div>
+                <div class="w-1 h-2 bg-gradient-to-t from-blue-400 to-purple-500 rounded-full wave-bar"></div>
+            </div>
+        </header>
+
+        <!-- Notice -->
+        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-8">
+            <p class="text-yellow-800">
+                ℹ️ <strong>Demo Note:</strong> This is a quick demonstration using synthesized tones. 
+                For the full experience with real nature sounds, please set up the audio files as described in the README.
+            </p>
+        </div>
+
+        <!-- AI Prompt -->
+        <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100 mb-8">
+            <div class="flex items-center gap-2 mb-4">
+                <span class="text-2xl">✨</span>
+                <h2 class="text-xl font-semibold text-gray-800">AI Soundscape Generator</h2>
+            </div>
+            <p class="text-gray-600 mb-4">Describe your perfect environment and let AI create the soundscape for you</p>
+            
+            <div class="flex gap-3 mb-4">
+                <input 
+                    type="text" 
+                    id="aiPrompt"
+                    placeholder="e.g., 'peaceful rain for studying' or 'energetic focus sounds'"
+                    class="flex-1 px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                />
+                <button 
+                    onclick="generateFromPrompt()"
+                    class="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all flex items-center gap-2"
+                >
+                    🪄 Generate
+                </button>
+            </div>
+            
+            <!-- 示例提示 -->
+            <div class="space-y-2">
+                <p class="text-sm text-gray-500">Try these examples:</p>
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="setPrompt('peaceful rain for studying')" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-gray-200 transition-colors">peaceful rain for studying</button>
+                    <button onclick="setPrompt('energetic focus sounds')" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-gray-200 transition-colors">energetic focus sounds</button>
+                    <button onclick="setPrompt('calming meditation tones')" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-gray-200 transition-colors">calming meditation tones</button>
+                    <button onclick="setPrompt('deep sleep sounds')" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-gray-200 transition-colors">deep sleep sounds</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scene Presets -->
+        <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100 mb-8">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">🎯 Quick Scene Presets</h2>
+            <p class="text-gray-600 mb-6">Choose a pre-designed soundscape for different activities</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div onclick="applyPreset('focus')" class="group cursor-pointer">
+                    <div class="bg-gradient-to-br from-yellow-400 to-orange-500 p-6 rounded-lg hover:shadow-lg transition-all duration-300 group-hover:scale-105">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="text-2xl">⚡</span>
+                            <h3 class="font-semibold text-lg text-white">Deep Focus</h3>
+                        </div>
+                        <p class="text-white/90 text-sm">Energetic tones for concentration and productivity</p>
+                    </div>
+                </div>
+                
+                <div onclick="applyPreset('relax')" class="group cursor-pointer">
+                    <div class="bg-gradient-to-br from-blue-400 to-cyan-600 p-6 rounded-lg hover:shadow-lg transition-all duration-300 group-hover:scale-105">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="text-2xl">🌊</span>
+                            <h3 class="font-semibold text-lg text-white">Relaxation</h3>
+                        </div>
+                        <p class="text-white/90 text-sm">Calming frequencies for stress relief</p>
+                    </div>
+                </div>
+                
+                <div onclick="applyPreset('sleep')" class="group cursor-pointer">
+                    <div class="bg-gradient-to-br from-purple-400 to-indigo-600 p-6 rounded-lg hover:shadow-lg transition-all duration-300 group-hover:scale-105">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="text-2xl">🌙</span>
+                            <h3 class="font-semibold text-lg text-white">Sleep Time</h3>
+                        </div>
+                        <p class="text-white/90 text-sm">Deep, low tones for better sleep</p>
+                    </div>
+                </div>
+                
+                <div onclick="applyPreset('creative')" class="group cursor-pointer">
+                    <div class="bg-gradient-to-br from-green-400 to-emerald-600 p-6 rounded-lg hover:shadow-lg transition-all duration-300 group-hover:scale-105">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="text-2xl">🎨</span>
+                            <h3 class="font-semibold text-lg text-white">Creative Flow</h3>
+                        </div>
+                        <p class="text-white/90 text-sm">Inspiring harmonics for creative work</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Current Scene Display -->
+        <div id="currentScene" class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-8 hidden">
+            <p class="text-blue-800">
+                🎵 Current Scene: <span id="sceneName" class="font-semibold"></span>
+            </p>
+        </div>
+
+        <!-- Synthetic Sound Mixer -->
+        <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100 mb-8">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">🎚️ Synthetic Sound Mixer</h2>
+            <p class="text-gray-600 mb-6">Adjust the volume and frequency of synthesized tones</p>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="soundMixer">
+                <!-- Sound controls will be generated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Player Controls -->
+        <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100 mb-8">
+            <div class="flex flex-col lg:flex-row items-center gap-6">
+                <!-- 主控制按钮 -->
+                <div class="flex items-center gap-3">
+                    <button 
+                        id="playPauseBtn"
+                        onclick="togglePlayPause()"
+                        class="w-16 h-16 rounded-full flex items-center justify-center transition-all bg-gradient-to-r from-green-500 to-emerald-600 hover:shadow-lg"
+                    >
+                        <span id="playIcon" class="text-white text-2xl">▶️</span>
+                    </button>
+                    
+                    <button 
+                        onclick="stopAll()"
+                        class="w-12 h-12 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center transition-all"
+                    >
+                        <span class="text-gray-600 text-xl">⏹️</span>
+                    </button>
+                    
+                    <button 
+                        onclick="resetAll()"
+                        class="w-12 h-12 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center transition-all"
+                        title="Reset all settings"
+                    >
+                        <span class="text-gray-600 text-xl">🔄</span>
+                    </button>
+                </div>
+
+                <!-- 状态显示 -->
+                <div class="flex items-center gap-4 text-sm text-gray-600">
+                    <div id="playStatus" class="flex items-center gap-2 text-gray-400">
+                        <div class="w-2 h-2 rounded-full bg-gray-400"></div>
+                        Stopped
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-16 text-center text-gray-500">
+            <p>Built with ❤️ for better focus and relaxation</p>
+            <p class="text-sm mt-2">Quick demo using Web Audio API synthetic sounds</p>
+            <p class="text-xs mt-1">
+                <a href="https://github.com/yourusername/soundscape-ai" class="text-blue-500 hover:underline">View on GitHub</a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Web Audio API设置
+        let audioContext;
+        let oscillators = {};
+        let gainNodes = {};
+        let isPlaying = false;
+
+        // 合成音频配置
+        const synthSounds = [
+            { id: 'bass', name: 'Deep Bass', emoji: '🎵', frequency: 60, waveform: 'sine', color: 'from-purple-400 to-purple-600' },
+            { id: 'mid', name: 'Mid Tone', emoji: '🎶', frequency: 220, waveform: 'sine', color: 'from-blue-400 to-blue-600' },
+            { id: 'high', name: 'High Tone', emoji: '🎼', frequency: 880, waveform: 'sine', color: 'from-green-400 to-green-600' },
+            { id: 'noise', name: 'White Noise', emoji: '📻', frequency: 0, waveform: 'noise', color: 'from-gray-400 to-gray-600' }
+        ];
+
+        let volumes = {};
+
+        // 初始化音频上下文
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            
+            synthSounds.forEach(sound => {
+                volumes[sound.id] = 0;
+                gainNodes[sound.id] = audioContext.createGain();
+                gainNodes[sound.id].connect(audioContext.destination);
+                gainNodes[sound.id].gain.value = 0;
+            });
+        }
+
+        // 创建合成音
+        function createSynthSound(soundConfig) {
+            if (soundConfig.waveform === 'noise') {
+                // 白噪音生成器
+                const bufferSize = 2 * audioContext.sampleRate;
+                const noiseBuffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+                const output = noiseBuffer.getChannelData(0);
+                
+                for (let i = 0; i < bufferSize; i++) {
+                    output[i] = Math.random() * 2 - 1;
+                }
+                
+                const whiteNoise = audioContext.createBufferSource();
+                whiteNoise.buffer = noiseBuffer;
+                whiteNoise.loop = true;
+                return whiteNoise;
+            } else {
+                // 正弦波生成器
+                const oscillator = audioContext.createOscillator();
+                oscillator.type = soundConfig.waveform;
+                oscillator.frequency.value = soundConfig.frequency;
+                return oscillator;
+            }
+        }
+
+        // 生成音频控制界面
+        function generateSoundControls() {
+            const mixer = document.getElementById('soundMixer');
+            mixer.innerHTML = '';
+
+            synthSounds.forEach(sound => {
+                const controlDiv = document.createElement('div');
+                controlDiv.className = 'bg-gray-50 rounded-lg p-4 space-y-3';
+                
+                controlDiv.innerHTML = `
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-gradient-to-br ${sound.color} rounded-full flex items-center justify-center mx-auto mb-2">
+                            <span class="text-xl">${sound.emoji}</span>
+                        </div>
+                        <h3 class="font-medium text-gray-800 text-sm">${sound.name}</h3>
+                        <p class="text-xs text-gray-500">${sound.frequency > 0 ? sound.frequency + ' Hz' : 'Broadband'}</p>
+                    </div>
+                    <div class="space-y-2">
+                        <input 
+                            type="range" 
+                            min="0" 
+                            max="0.3" 
+                            step="0.01" 
+                            value="0"
+                            id="slider-${sound.id}"
+                            onchange="updateVolume('${sound.id}', this.value)"
+                            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                        />
+                        <div class="flex items-center justify-between text-xs text-gray-500">
+                            <span>🔇</span>
+                            <span id="volume-${sound.id}">0%</span>
+                            <span>🔊</span>
+                        </div>
+                    </div>
+                `;
+                
+                mixer.appendChild(controlDiv);
+            });
+        }
+
+        // 更新音量
+        function updateVolume(soundId, volume) {
+            volumes[soundId] = parseFloat(volume);
+            
+            if (gainNodes[soundId]) {
+                gainNodes[soundId].gain.value = volume;
+            }
+            
+            document.getElementById(`volume-${soundId}`).textContent = Math.round(volume * 100 / 0.3) + '%';
+            
+            // 如果正在播放且音量大于0，启动音源
+            if (isPlaying && volume > 0 && !oscillators[soundId]) {
+                startSound(soundId);
+            } else if (volume === 0 && oscillators[soundId]) {
+                stopSound(soundId);
+            }
+        }
+
+        // 启动单个音源
+        function startSound(soundId) {
+            const soundConfig = synthSounds.find(s => s.id === soundId);
+            if (!soundConfig) return;
+
+            oscillators[soundId] = createSynthSound(soundConfig);
+            oscillators[soundId].connect(gainNodes[soundId]);
+            oscillators[soundId].start();
+        }
+
+        // 停止单个音源
+        function stopSound(soundId) {
+            if (oscillators[soundId]) {
+                oscillators[soundId].stop();
+                oscillators[soundId] = null;
+            }
+        }
+
+        // 播放/暂停控制
+        function togglePlayPause() {
+            if (!audioContext) {
+                initAudio();
+            }
+            
+            // 恢复音频上下文
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+            
+            isPlaying = !isPlaying;
+            
+            const playIcon = document.getElementById('playIcon');
+            const playStatus = document.getElementById('playStatus');
+            const playBtn = document.getElementById('playPauseBtn');
+            
+            if (isPlaying) {
+                playIcon.textContent = '⏸️';
+                playBtn.className = 'w-16 h-16 rounded-full flex items-center justify-center transition-all bg-gradient-to-r from-red-500 to-pink-600 hover:shadow-lg';
+                playStatus.innerHTML = '<div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div> Playing';
+                playStatus.className = 'flex items-center gap-2 text-green-600';
+                
+                // 启动所有有音量的音源
+                Object.keys(volumes).forEach(soundId => {
+                    if (volumes[soundId] > 0) {
+                        startSound(soundId);
+                    }
+                });
+            } else {
+                playIcon.textContent = '▶️';
+                playBtn.className = 'w-16 h-16 rounded-full flex items-center justify-center transition-all bg-gradient-to-r from-green-500 to-emerald-600 hover:shadow-lg';
+                playStatus.innerHTML = '<div class="w-2 h-2 rounded-full bg-gray-400"></div> Stopped';
+                playStatus.className = 'flex items-center gap-2 text-gray-400';
+                
+                // 停止所有音源
+                Object.keys(oscillators).forEach(soundId => {
+                    stopSound(soundId);
+                });
+            }
+        }
+
+        // 停止所有
+        function stopAll() {
+            isPlaying = false;
+            
+            Object.keys(oscillators).forEach(soundId => {
+                stopSound(soundId);
+            });
+            
+            synthSounds.forEach(sound => {
+                const slider = document.getElementById(`slider-${sound.id}`);
+                if (slider) {
+                    slider.value = 0;
+                    updateVolume(sound.id, 0);
+                }
+            });
+            
+            document.getElementById('playIcon').textContent = '▶️';
+            document.getElementById('playPauseBtn').className = 'w-16 h-16 rounded-full flex items-center justify-center transition-all bg-gradient-to-r from-green-500 to-emerald-600 hover:shadow-lg';
+            document.getElementById('playStatus').innerHTML = '<div class="w-2 h-2 rounded-full bg-gray-400"></div> Stopped';
+            document.getElementById('playStatus').className = 'flex items-center gap-2 text-gray-400';
+            
+            document.getElementById('currentScene').classList.add('hidden');
+        }
+
+        // 重置所有
+        function resetAll() {
+            stopAll();
+            document.getElementById('aiPrompt').value = '';
+        }
+
+        // 应用预设
+        function applyPreset(presetType) {
+            const presets = {
+                focus: { bass: 0.1, mid: 0.15, high: 0.1, noise: 0.05 },
+                relax: { bass: 0.2, mid: 0.1, high: 0.05, noise: 0.1 },
+                sleep: { bass: 0.15, mid: 0.05, high: 0.02, noise: 0.2 },
+                creative: { bass: 0.08, mid: 0.12, high: 0.15, noise: 0.03 }
+            };
+            
+            const presetNames = {
+                focus: 'Deep Focus',
+                relax: 'Relaxation',
+                sleep: 'Sleep Time',
+                creative: 'Creative Flow'
+            };
+            
+            const config = presets[presetType];
+            if (!config) return;
+            
+            // 应用预设配置
+            Object.keys(config).forEach(soundId => {
+                const volume = config[soundId];
+                const slider = document.getElementById(`slider-${soundId}`);
+                if (slider) {
+                    slider.value = volume;
+                    updateVolume(soundId, volume);
+                }
+            });
+            
+            // 显示当前场景
+            document.getElementById('sceneName').textContent = presetNames[presetType];
+            document.getElementById('currentScene').classList.remove('hidden');
+            
+            // 开始播放
+            if (!isPlaying) {
+                togglePlayPause();
+            }
+        }
+
+        // AI提示词生成
+        function generateFromPrompt() {
+            const prompt = document.getElementById('aiPrompt').value.toLowerCase();
+            if (!prompt.trim()) return;
+            
+            let presetType = 'relax';
+            
+            if (prompt.includes('focus') || prompt.includes('work') || prompt.includes('study') || prompt.includes('energetic')) {
+                presetType = 'focus';
+            } else if (prompt.includes('sleep') || prompt.includes('deep') || prompt.includes('night')) {
+                presetType = 'sleep';
+            } else if (prompt.includes('creative') || prompt.includes('inspire') || prompt.includes('art')) {
+                presetType = 'creative';
+            }
+            
+            applyPreset(presetType);
+            
+            // 更新场景名称为AI生成
+            document.getElementById('sceneName').textContent = `AI Generated: ${prompt}`;
+        }
+
+        // 设置提示词
+        function setPrompt(text) {
+            document.getElementById('aiPrompt').value = text;
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            generateSoundControls();
+        });
+
+        // 处理用户手势以启动音频上下文
+        document.addEventListener('click', () => {
+            if (!audioContext) {
+                initAudio();
+            }
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,75 @@
+# SoundScape AI - Project Rules & Guidelines
+
+## 🌍 CORE PRINCIPLE: OVERSEAS MARKET FOCUS
+This is an ambient sound website targeting OVERSEAS markets to compete with A Soft Murmur.
+
+## 📝 LANGUAGE & CONTENT RULES
+
+### 🌍 USER-FACING CONTENT (ENGLISH ONLY)
+- **ALL user-facing text MUST be in native English only**
+- **NO Chinese text in UI components, labels, or user messages**
+- **Use professional, natural English copywriting**
+- **Target native English speakers (US, UK, CA, AU markets)**
+
+### 🔧 DEVELOPMENT COMMUNICATION (CHINESE OK)
+- **Code comments can be in Chinese for internal team communication**
+- **Developer-to-developer conversations in Chinese are fine**
+- **Error logs and debug messages can be in Chinese**
+- **README files for developers can be bilingual or Chinese**
+
+### 📋 CLEAR DISTINCTION
+- **Frontend/UI = English** (what users see)
+- **Backend/Code = Chinese OK** (what developers see)
+
+## 🎯 TARGET AUDIENCE
+- **Primary:** English-speaking users seeking focus/relaxation sounds
+- **Demographics:** Remote workers, students, meditation practitioners
+- **Competitors:** A Soft Murmur, MyNoise.net, Noisli
+
+## 🛠️ TECHNICAL STACK
+- **Frontend:** Next.js 14 + TypeScript + Tailwind CSS
+- **Audio:** Howler.js for audio management
+- **Icons:** Lucide React
+- **Deployment:** Static export for easy hosting
+
+## 🎨 DESIGN PRINCIPLES
+- **Modern, clean UI superior to A Soft Murmur**
+- **Gradient-based color schemes**
+- **Responsive design (mobile-first)**
+- **Professional appearance to attract premium users**
+
+## 🚀 DEVELOPMENT PRIORITIES
+1. **Phase 1:** Complete frontend with smart keyword matching
+2. **Phase 2:** Real AI integration (OpenAI/Claude API)
+3. **Phase 3:** Advanced features (sharing, presets, analytics)
+
+## 📁 AUDIO ASSETS
+- **Format:** MP3/mp4/wav files in `/public/sounds/`
+- **Naming:** kebab-case (rain.mp3, white-noise.mp3)
+- **Quality:** High-quality, loopable ambient sounds
+
+## 🎵 SOUND CATEGORIES
+1. **Nature:** rain, thunder, wind, birds, crickets, waves
+2. **Urban:** coffee shop, keyboard typing, white noise
+3. **Fire:** fireplace crackling
+
+## 💰 MONETIZATION STRATEGY
+- **Freemium model:** Basic sounds free, premium features paid
+- **Target keywords:** "white noise generator", "ambient sounds", "focus sounds"
+- **SEO optimization for overseas traffic capture**
+
+## 🔧 CODE STANDARDS
+- **TypeScript strict mode:** false (for rapid development)
+- **Component structure:** Functional components with hooks
+- **State management:** React hooks + localStorage for persistence
+- **Error handling:** Graceful fallbacks for audio loading
+- **Comments:** Chinese OK for internal team understanding
+- **Console logs:** Chinese OK for debugging purposes
+
+## 📊 SUCCESS METRICS
+- **Traffic goal:** Capture significant portion of A Soft Murmur's 315K monthly visits
+- **User engagement:** Session duration, return visits
+- **Conversion:** Free to premium upgrade rate
+
+---
+**Remember: Every feature should be better than A Soft Murmur to justify user switching** 

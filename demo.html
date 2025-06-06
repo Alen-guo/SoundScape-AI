@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoundScape AI - Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <header class="text-center mb-12">
+            <h1 class="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
+                🎵 SoundScape AI
+            </h1>
+            <p class="text-xl text-gray-600">Create perfect ambient soundscapes with AI</p>
+        </header>
+
+        <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100 mb-8">
+            <h2 class="text-xl font-semibold mb-4">🎯 Demo Features</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                    <h3 class="font-semibold text-lg">✅ Implemented</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li>✨ Modern UI with Tailwind CSS</li>
+                        <li>🤖 AI prompt interface</li>
+                        <li>🎯 Scene presets</li>
+                        <li>🎚️ Audio mixer controls</li>
+                        <li>⏯️ Play/Pause controls</li>
+                        <li>📱 Responsive design</li>
+                    </ul>
+                </div>
+                <div class="space-y-4">
+                    <h3 class="font-semibold text-lg">🔄 Next Steps</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li>🎵 Add real audio files</li>
+                        <li>🔊 Integrate Howler.js</li>
+                        <li>🤖 Connect real AI API</li>
+                        <li>💾 User preferences storage</li>
+                        <li>🌐 Deploy to production</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
+            <h2 class="text-xl font-semibold mb-4">🚀 How to Run</h2>
+            <div class="space-y-4">
+                <div>
+                    <h3 class="font-semibold">Option 1: Next.js Development</h3>
+                    <pre class="bg-gray-100 p-3 rounded text-sm mt-2">npm install
+npm run dev</pre>
+                    <p class="text-sm text-gray-600 mt-2">Open http://localhost:3000</p>
+                </div>
+                
+                <div>
+                    <h3 class="font-semibold">Option 2: Add Audio Files</h3>
+                    <p class="text-sm text-gray-600">
+                        Download audio files from 
+                        <a href="https://freesound.org" class="text-blue-500 hover:underline">Freesound.org</a>
+                        and place them in <code class="bg-gray-100 px-1 rounded">public/sounds/</code>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <footer class="mt-8 text-center text-gray-500">
+            <p>SoundScape AI MVP - Built with Next.js, Tailwind CSS, and Howler.js</p>
+        </footer>
+    </div>
+</body>
+</html> 

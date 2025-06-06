@@ -1,0 +1,39 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e293b;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#020617;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGradient)"/>
+  
+  <!-- Icon circle -->
+  <circle cx="300" cy="315" r="80" fill="url(#iconGradient)"/>
+  
+  <!-- Wave lines in icon -->
+  <path d="M240 285 Q260 255 280 285 T320 285" stroke="white" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <path d="M240 315 Q260 285 280 315 T320 315" stroke="white" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <path d="M240 345 Q260 315 280 345 T320 345" stroke="white" stroke-width="8" fill="none" stroke-linecap="round"/>
+  
+  <!-- Title -->
+  <text x="450" y="280" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="bold" fill="white">
+    SoundScape AI
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="450" y="340" font-family="system-ui, -apple-system, sans-serif" font-size="36" fill="#94a3b8">
+    Ambient Sounds for Focus &amp; Relaxation
+  </text>
+  
+  <!-- Description -->
+  <text x="450" y="390" font-family="system-ui, -apple-system, sans-serif" font-size="24" fill="#64748b">
+    Create perfect soundscapes with nature sounds, white noise &amp; more
+  </text>
+</svg> 

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Test - SoundScape AI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .audio-test {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .audio-test h3 {
+            margin: 0 0 10px 0;
+        }
+        audio {
+            width: 100%;
+        }
+        .status {
+            margin-top: 5px;
+            font-size: 12px;
+        }
+        .loading { color: orange; }
+        .loaded { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>🎵 Audio Files Test</h1>
+    <p>Testing all audio files to ensure they can be loaded and played.</p>
+    
+    <div id="audio-tests"></div>
+    
+    <script>
+        const sounds = [
+            { id: 'rain', name: 'Rain', url: '/sounds/rain.mp4' },
+            { id: 'thunder', name: 'Thunder', url: '/sounds/thunder.mp4' },
+            { id: 'fire', name: 'Fireplace', url: '/sounds/fire.mp4' },
+            { id: 'wind', name: 'Wind', url: '/sounds/wind.mp4' },
+            { id: 'waves', name: 'Ocean Waves', url: '/sounds/waves.mp4' },
+            { id: 'crickets', name: 'Crickets', url: '/sounds/crickets.mp4' },
+            { id: 'people', name: 'Coffee Shop', url: '/sounds/people.mp4' },
+            { id: 'sbowl', name: 'Singing Bowl', url: '/sounds/sbowl.mp4' }
+        ];
+        
+        const container = document.getElementById('audio-tests');
+        
+        sounds.forEach(sound => {
+            const div = document.createElement('div');
+            div.className = 'audio-test';
+            div.innerHTML = `
+                <h3>${sound.name}</h3>
+                <audio controls preload="metadata">
+                    <source src="${sound.url}" type="audio/mp4">
+                    Your browser does not support the audio element.
+                </audio>
+                <div class="status loading" id="status-${sound.id}">Loading...</div>
+            `;
+            
+            container.appendChild(div);
+            
+            const audio = div.querySelector('audio');
+            const status = document.getElementById(`status-${sound.id}`);
+            
+            audio.addEventListener('loadeddata', () => {
+                status.textContent = `✅ Loaded (${audio.duration.toFixed(1)}s)`;
+                status.className = 'status loaded';
+            });
+            
+            audio.addEventListener('error', (e) => {
+                status.textContent = `❌ Failed to load: ${e.message || 'Unknown error'}`;
+                status.className = 'status error';
+            });
+            
+            audio.addEventListener('canplay', () => {
+                console.log(`${sound.name} ready to play`);
+            });
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoundScape AI - Create Perfect Ambient Soundscapes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/howler@2.2.4/dist/howler.min.js"></script>
+    <style>
+        @keyframes wave {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(1.5); }
+        }
+        .wave-bar {
+            animation: wave 1s ease-in-out infinite;
+        }
+        .wave-bar:nth-child(2) { animation-delay: 0.1s; }
+        .wave-bar:nth-child(3) { animation-delay: 0.2s; }
+        .wave-bar:nth-child(4) { animation-delay: 0.3s; }
+        .wave-bar:nth-child(5) { animation-delay: 0.4s; }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <div class="flex items-center justify-center gap-3 mb-4">
+                <div class="p-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full">
+                    🌊
+                </div>
+                <h1 class="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                    SoundScape AI
+                </h1>
+            </div>
+            <p class="text-xl text-gray-600 mb-2">Create perfect ambient soundscapes with AI</p>
+            <p class="text-gray-500">Mix nature sounds, white noise, and atmospheric audio for focus, relaxation, and productivity</p>
+            
+            <!-- 音频波形可视化装饰 -->
+            <div class="flex justify-center gap-1 mt-6">
+                <div class="w-1 h-4 bg-gradient-to-t from-blue-400 to-purple-500 rounded-full wave-bar"></div>
+                <div class="w-1 h-6 bg-gradient-to-t from-blue-400 to-purple-500 rounded-full wave-bar"></div>
+                <div class="w-1 h-3 bg-gradient-to-t from-blue-400 to-purple-500 rounded-full wave-bar"></div>
+                <div class="w-1 h-5 bg-gradient-to-t from-blue-400 to-purple-500 rounded-full wave-bar"></div>
+                <div class="w-1 h-2 bg-gradient-to-t from-blue-400 to-purple-500 rounded-full wave-bar"></div>
+            </div>
+        </header>
+
+        <!-- AI Prompt -->
+        <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100 mb-8">
+            <div class="flex items-center gap-2 mb-4">
+                <span class="text-2xl">✨</span>
+                <h2 class="text-xl font-semibold text-gray-800">AI Soundscape Generator</h2>
+            </div>
+            <p class="text-gray-600 mb-4">Describe your perfect environment and let AI create the soundscape for you</p>
+            
+            <div class="flex gap-3 mb-4">
+                <input 
+                    type="text" 
+                    id="aiPrompt"
+                    placeholder="e.g., 'cozy coffee shop on a rainy afternoon for studying'"
+                    class="flex-1 px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                />
+                <button 
+                    onclick="generateFromPrompt()"
+                    class="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all flex items-center gap-2"
+                >
+                    🪄 Generate
+                </button>
+            </div>
+            
+            <!-- 示例提示 -->
+            <div class="space-y-2">
+                <p class="text-sm text-gray-500">Try these examples:</p>
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="setPrompt('cozy coffee shop with rain')" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-gray-200 transition-colors">cozy coffee shop with rain</button>
+                    <button onclick="setPrompt('peaceful forest morning')" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-gray-200 transition-colors">peaceful forest morning</button>
+                    <button onclick="setPrompt('ocean waves for meditation')" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-gray-200 transition-colors">ocean waves for meditation</button>
+                    <button onclick="setPrompt('thunderstorm for sleep')" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-gray-200 transition-colors">thunderstorm for sleep</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scene Presets -->
+        <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100 mb-8">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">🎯 Quick Scene Presets</h2>
+            <p class="text-gray-600 mb-6">Choose a pre-designed soundscape for different activities</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div onclick="applyScene({rain: 0.6, coffee: 0.4, keyboard: 0.2}, 'Deep Focus')" class="group cursor-pointer">
+                    <div class="bg-gradient-to-br from-yellow-400 to-orange-500 p-6 rounded-lg hover:shadow-lg transition-all duration-300 group-hover:scale-105">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="text-2xl">⚡</span>
+                            <h3 class="font-semibold text-lg text-white">Deep Focus</h3>
+                        </div>
+                        <p class="text-white/90 text-sm">Perfect for coding and deep work</p>
+                    </div>
+                </div>
+                
+                <div onclick="applyScene({rain: 0.7, pages: 0.3, whisper: 0.1}, 'Study Session')" class="group cursor-pointer">
+                    <div class="bg-gradient-to-br from-green-400 to-blue-500 p-6 rounded-lg hover:shadow-lg transition-all duration-300 group-hover:scale-105">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="text-2xl">📚</span>
+                            <h3 class="font-semibold text-lg text-white">Study Session</h3>
+                        </div>
+                        <p class="text-white/90 text-sm">Library atmosphere for learning</p>
+                    </div>
+                </div>
+                
+                <div onclick="applyScene({rain: 0.8, wind: 0.3, crickets: 0.2}, 'Sleep Time')" class="group cursor-pointer">
+                    <div class="bg-gradient-to-br from-purple-400 to-indigo-600 p-6 rounded-lg hover:shadow-lg transition-all duration-300 group-hover:scale-105">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="text-2xl">🌙</span>
+                            <h3 class="font-semibold text-lg text-white">Sleep Time</h3>
+                        </div>
+                        <p class="text-white/90 text-sm">Peaceful sounds for better sleep</p>
+                    </div>
+                </div>
+                
+                <div onclick="applyScene({coffee: 0.7, chatter: 0.3, jazz: 0.2}, 'Coffee Shop')" class="group cursor-pointer">
+                    <div class="bg-gradient-to-br from-amber-400 to-brown-500 p-6 rounded-lg hover:shadow-lg transition-all duration-300 group-hover:scale-105">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="text-2xl">☕</span>
+                            <h3 class="font-semibold text-lg text-white">Coffee Shop</h3>
+                        </div>
+                        <p class="text-white/90 text-sm">Cozy cafe atmosphere</p>
+                    </div>
+                </div>
+                
+                <div onclick="applyScene({birds: 0.6, wind: 0.4, leaves: 0.3}, 'Nature Escape')" class="group cursor-pointer">
+                    <div class="bg-gradient-to-br from-green-400 to-emerald-600 p-6 rounded-lg hover:shadow-lg transition-all duration-300 group-hover:scale-105">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="text-2xl">🌲</span>
+                            <h3 class="font-semibold text-lg text-white">Nature Escape</h3>
+                        </div>
+                        <p class="text-white/90 text-sm">Forest sounds for meditation</p>
+                    </div>
+                </div>
+                
+                <div onclick="applyScene({waves: 0.8, seagulls: 0.2, wind: 0.3}, 'Ocean Waves')" class="group cursor-pointer">
+                    <div class="bg-gradient-to-br from-blue-400 to-cyan-600 p-6 rounded-lg hover:shadow-lg transition-all duration-300 group-hover:scale-105">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="text-2xl">🌊</span>
+                            <h3 class="font-semibold text-lg text-white">Ocean Waves</h3>
+                        </div>
+                        <p class="text-white/90 text-sm">Beach vibes for relaxation</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Current Scene Display -->
+        <div id="currentScene" class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-8 hidden">
+            <p class="text-blue-800">
+                🎵 Current Scene: <span id="sceneName" class="font-semibold"></span>
+            </p>
+        </div>
+
+        <!-- Audio Mixer -->
+        <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100 mb-8">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">🎚️ Sound Mixer</h2>
+            <p class="text-gray-600 mb-6">Adjust the volume of each sound to create your perfect mix</p>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4" id="soundMixer">
+                <!-- Sound controls will be generated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Player Controls -->
+        <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100 mb-8">
+            <div class="flex flex-col lg:flex-row items-center gap-6">
+                <!-- 主控制按钮 -->
+                <div class="flex items-center gap-3">
+                    <button 
+                        id="playPauseBtn"
+                        onclick="togglePlayPause()"
+                        class="w-16 h-16 rounded-full flex items-center justify-center transition-all bg-gradient-to-r from-green-500 to-emerald-600 hover:shadow-lg"
+                    >
+                        <span id="playIcon" class="text-white text-2xl">▶️</span>
+                    </button>
+                    
+                    <button 
+                        onclick="stopAll()"
+                        class="w-12 h-12 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center transition-all"
+                    >
+                        <span class="text-gray-600 text-xl">⏹️</span>
+                    </button>
+                    
+                    <button 
+                        onclick="resetAll()"
+                        class="w-12 h-12 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center transition-all"
+                        title="Reset all settings"
+                    >
+                        <span class="text-gray-600 text-xl">🔄</span>
+                    </button>
+                </div>
+
+                <!-- 定时器控制 -->
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xl">⏰</span>
+                        <span class="text-sm text-gray-600">Timer:</span>
+                    </div>
+                    
+                    <div class="flex gap-2">
+                        <button onclick="setTimer(15)" class="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full text-sm transition-all">15m</button>
+                        <button onclick="setTimer(30)" class="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full text-sm transition-all">30m</button>
+                        <button onclick="setTimer(60)" class="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full text-sm transition-all">60m</button>
+                        <button onclick="setTimer(90)" class="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full text-sm transition-all">90m</button>
+                        <button onclick="setTimer(0)" class="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full text-sm transition-all">∞</button>
+                    </div>
+                </div>
+
+                <!-- 状态显示 -->
+                <div class="flex items-center gap-4 text-sm text-gray-600">
+                    <div id="playStatus" class="flex items-center gap-2 text-gray-400">
+                        <div class="w-2 h-2 rounded-full bg-gray-400"></div>
+                        Stopped
+                    </div>
+                    
+                    <div id="timerStatus" class="flex items-center gap-2 text-blue-600 hidden">
+                        <span class="text-xl">⏰</span>
+                        <span id="timerText">Timer active</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-16 text-center text-gray-500">
+            <p>Built with ❤️ for better focus and relaxation</p>
+            <p class="text-sm mt-2">Note: This demo uses placeholder URLs for audio files. Add your own MP3 files to make it fully functional.</p>
+        </footer>
+    </div>
+
+    <script>
+        // 音频配置
+        const sounds = [
+            { id: 'rain', name: 'Rain', emoji: '🌧️', url: '/sounds/rain.mp3', color: 'from-blue-400 to-blue-600' },
+            { id: 'thunder', name: 'Thunder', emoji: '⛈️', url: '/sounds/thunder.mp3', color: 'from-gray-500 to-gray-700' },
+            { id: 'fire', name: 'Fireplace', emoji: '🔥', url: '/sounds/fire.mp3', color: 'from-orange-400 to-red-600' },
+            { id: 'wind', name: 'Wind', emoji: '💨', url: '/sounds/wind.mp3', color: 'from-gray-300 to-gray-500' },
+            { id: 'birds', name: 'Birds', emoji: '🐦', url: '/sounds/birds.mp3', color: 'from-green-400 to-green-600' },
+            { id: 'waves', name: 'Ocean', emoji: '🌊', url: '/sounds/waves.mp3', color: 'from-cyan-400 to-blue-500' },
+            { id: 'coffee', name: 'Coffee Shop', emoji: '☕', url: '/sounds/coffee.mp3', color: 'from-amber-400 to-brown-500' },
+            { id: 'crickets', name: 'Crickets', emoji: '🦗', url: '/sounds/crickets.mp3', color: 'from-green-500 to-green-700' }
+        ];
+
+        let soundObjects = {};
+        let isPlaying = false;
+        let volumes = {};
+        let currentTimer = null;
+
+        // 初始化音频对象
+        function initAudio() {
+            sounds.forEach(sound => {
+                soundObjects[sound.id] = new Howl({
+                    src: [sound.url],
+                    loop: true,
+                    volume: 0,
+                    onloaderror: () => console.log(`Failed to load ${sound.name} - using placeholder`)
+                });
+                volumes[sound.id] = 0;
+            });
+        }
+
+        // 生成音频控制界面
+        function generateSoundControls() {
+            const mixer = document.getElementById('soundMixer');
+            mixer.innerHTML = '';
+
+            sounds.forEach(sound => {
+                const controlDiv = document.createElement('div');
+                controlDiv.className = 'bg-gray-50 rounded-lg p-4 space-y-3';
+                
+                controlDiv.innerHTML = `
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-gradient-to-br ${sound.color} rounded-full flex items-center justify-center mx-auto mb-2">
+                            <span class="text-xl">${sound.emoji}</span>
+                        </div>
+                        <h3 class="font-medium text-gray-800 text-sm">${sound.name}</h3>
+                    </div>
+                    <div class="space-y-2">
+                        <input 
+                            type="range" 
+                            min="0" 
+                            max="1" 
+                            step="0.01" 
+                            value="0"
+                            id="slider-${sound.id}"
+                            onchange="updateVolume('${sound.id}', this.value)"
+                            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                        />
+                        <div class="flex items-center justify-between text-xs text-gray-500">
+                            <span>🔇</span>
+                            <span id="volume-${sound.id}">0%</span>
+                            <span>🔊</span>
+                        </div>
+                    </div>
+                `;
+                
+                mixer.appendChild(controlDiv);
+            });
+        }
+
+        // 更新音量
+        function updateVolume(soundId, volume) {
+            volumes[soundId] = parseFloat(volume);
+            
+            if (soundObjects[soundId]) {
+                soundObjects[soundId].volume(volume);
+                
+                if (isPlaying && volume > 0) {
+                    if (!soundObjects[soundId].playing()) {
+                        soundObjects[soundId].play();
+                    }
+                } else {
+                    if (soundObjects[soundId].playing()) {
+                        soundObjects[soundId].pause();
+                    }
+                }
+            }
+            
+            document.getElementById(`volume-${soundId}`).textContent = Math.round(volume * 100) + '%';
+        }
+
+        // 播放/暂停控制
+        function togglePlayPause() {
+            isPlaying = !isPlaying;
+            
+            const playIcon = document.getElementById('playIcon');
+            const playStatus = document.getElementById('playStatus');
+            const playBtn = document.getElementById('playPauseBtn');
+            
+            if (isPlaying) {
+                playIcon.textContent = '⏸️';
+                playBtn.className = 'w-16 h-16 rounded-full flex items-center justify-center transition-all bg-gradient-to-r from-red-500 to-pink-600 hover:shadow-lg';
+                playStatus.innerHTML = '<div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div> Playing';
+                playStatus.className = 'flex items-center gap-2 text-green-600';
+                
+                // 播放所有有音量的声音
+                Object.keys(volumes).forEach(soundId => {
+                    if (volumes[soundId] > 0 && soundObjects[soundId]) {
+                        soundObjects[soundId].play();
+                    }
+                });
+            } else {
+                playIcon.textContent = '▶️';
+                playBtn.className = 'w-16 h-16 rounded-full flex items-center justify-center transition-all bg-gradient-to-r from-green-500 to-emerald-600 hover:shadow-lg';
+                playStatus.innerHTML = '<div class="w-2 h-2 rounded-full bg-gray-400"></div> Stopped';
+                playStatus.className = 'flex items-center gap-2 text-gray-400';
+                
+                // 暂停所有声音
+                Object.values(soundObjects).forEach(howl => {
+                    if (howl.playing()) {
+                        howl.pause();
+                    }
+                });
+            }
+        }
+
+        // 停止所有
+        function stopAll() {
+            isPlaying = false;
+            volumes = {};
+            
+            Object.values(soundObjects).forEach(howl => {
+                if (howl.playing()) {
+                    howl.stop();
+                }
+            });
+            
+            sounds.forEach(sound => {
+                document.getElementById(`slider-${sound.id}`).value = 0;
+                document.getElementById(`volume-${sound.id}`).textContent = '0%';
+                volumes[sound.id] = 0;
+            });
+            
+            document.getElementById('playIcon').textContent = '▶️';
+            document.getElementById('playPauseBtn').className = 'w-16 h-16 rounded-full flex items-center justify-center transition-all bg-gradient-to-r from-green-500 to-emerald-600 hover:shadow-lg';
+            document.getElementById('playStatus').innerHTML = '<div class="w-2 h-2 rounded-full bg-gray-400"></div> Stopped';
+            document.getElementById('playStatus').className = 'flex items-center gap-2 text-gray-400';
+            
+            document.getElementById('currentScene').classList.add('hidden');
+        }
+
+        // 重置所有
+        function resetAll() {
+            stopAll();
+            document.getElementById('aiPrompt').value = '';
+            if (currentTimer) {
+                clearTimeout(currentTimer);
+                currentTimer = null;
+            }
+            document.getElementById('timerStatus').classList.add('hidden');
+        }
+
+        // 应用场景
+        function applyScene(config, sceneName) {
+            // 先停止所有
+            Object.values(soundObjects).forEach(howl => {
+                if (howl.playing()) {
+                    howl.stop();
+                }
+            });
+            
+            // 应用新配置
+            Object.keys(config).forEach(soundId => {
+                const volume = config[soundId];
+                volumes[soundId] = volume;
+                
+                const slider = document.getElementById(`slider-${soundId}`);
+                if (slider) {
+                    slider.value = volume;
+                    updateVolume(soundId, volume);
+                }
+            });
+            
+            // 显示当前场景
+            document.getElementById('sceneName').textContent = sceneName;
+            document.getElementById('currentScene').classList.remove('hidden');
+            
+            // 开始播放
+            if (!isPlaying) {
+                togglePlayPause();
+            }
+        }
+
+        // AI提示词生成
+        function generateFromPrompt() {
+            const prompt = document.getElementById('aiPrompt').value.toLowerCase();
+            if (!prompt.trim()) return;
+            
+            let config = {};
+            let sceneName = 'AI Generated';
+            
+            if (prompt.includes('coffee') || prompt.includes('cafe')) {
+                config = { coffee: 0.7, chatter: 0.3, jazz: 0.2 };
+                sceneName = 'AI Generated: Coffee Shop';
+            } else if (prompt.includes('rain') || prompt.includes('storm')) {
+                config = { rain: 0.8, thunder: 0.2, wind: 0.3 };
+                sceneName = 'AI Generated: Rainy Weather';
+            } else if (prompt.includes('forest') || prompt.includes('nature')) {
+                config = { birds: 0.6, wind: 0.4, leaves: 0.3 };
+                sceneName = 'AI Generated: Forest';
+            } else if (prompt.includes('ocean') || prompt.includes('beach')) {
+                config = { waves: 0.8, seagulls: 0.2, wind: 0.3 };
+                sceneName = 'AI Generated: Ocean';
+            } else {
+                config = { rain: 0.5, fire: 0.4, crickets: 0.2 };
+                sceneName = 'AI Generated: Relaxing';
+            }
+            
+            applyScene(config, sceneName);
+        }
+
+        // 设置提示词
+        function setPrompt(text) {
+            document.getElementById('aiPrompt').value = text;
+        }
+
+        // 设置定时器
+        function setTimer(minutes) {
+            if (currentTimer) {
+                clearTimeout(currentTimer);
+            }
+            
+            if (minutes > 0) {
+                currentTimer = setTimeout(() => {
+                    stopAll();
+                    document.getElementById('timerStatus').classList.add('hidden');
+                }, minutes * 60 * 1000);
+                
+                document.getElementById('timerText').textContent = `${minutes} min timer active`;
+                document.getElementById('timerStatus').classList.remove('hidden');
+            } else {
+                document.getElementById('timerStatus').classList.add('hidden');
+            }
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            initAudio();
+            generateSoundControls();
+        });
+    </script>
+</body>
+</html> 
