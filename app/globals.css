@@ -21,6 +21,14 @@ body {
     background: linear-gradient(to bottom,
             transparent,
             rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+    /* 防止移动端横向滚动 */
+    overflow-x: hidden;
+}
+
+/* 确保所有容器不会超出视口宽度 */
+* {
+    box-sizing: border-box;
+    max-width: 100%;
 }
 
 /* 自定义滚动条 */

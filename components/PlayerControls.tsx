@@ -134,9 +134,9 @@ export default function PlayerControls({ isPlaying, onPlayPause, onStop, onAutoP
       <div className="flex items-center gap-3 mb-4">
         <h2 className="text-xl font-semibold text-gray-800">🎮 Playback Controls</h2>
       </div>
-      <div className="flex flex-col lg:flex-row items-center gap-6">
+      <div className="flex flex-col space-y-4 lg:space-y-0 lg:flex-row lg:items-center lg:gap-6">
         {/* 主控制按钮 */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center justify-center gap-3">
           <button
             onClick={onPlayPause}
             className={`w-16 h-16 rounded-full flex items-center justify-center transition-all ${
@@ -162,40 +162,44 @@ export default function PlayerControls({ isPlaying, onPlayPause, onStop, onAutoP
         </div>
 
         {/* Timer Controls */}
-        <div className="flex items-center gap-4">
-          <Timer className="w-4 h-4 text-gray-600" />
-          <span className="text-sm text-gray-600">Timer:</span>
+        <div className="flex flex-col space-y-3 lg:space-y-0 lg:flex-row lg:items-center lg:gap-4 w-full">
+          <div className="flex items-center gap-2 justify-center lg:justify-start">
+            <Timer className="w-4 h-4 text-gray-600" />
+            <span className="text-sm text-gray-600">Timer:</span>
+          </div>
           
           {/* Custom Timer Input + Preset Buttons */}
-          <div className="flex items-center gap-2">
-            <div className="relative">
-              <input
-                type="number"
-                min="1"
-                max="480"
-                value={customMinutes}
-                onChange={(e) => setCustomMinutes(e.target.value)}
-                placeholder="25"
-                className="w-16 px-2 py-1 text-sm border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                disabled={isTimerActive}
-              />
-              <span className="absolute right-1 top-1/2 transform -translate-y-1/2 text-xs text-gray-400">m</span>
+          <div className="flex flex-col space-y-2 lg:space-y-0 lg:flex-row lg:items-center lg:gap-2 w-full">
+            <div className="flex items-center gap-2 justify-center lg:justify-start">
+              <div className="relative">
+                <input
+                  type="number"
+                  min="1"
+                  max="480"
+                  value={customMinutes}
+                  onChange={(e) => setCustomMinutes(e.target.value)}
+                  placeholder="25"
+                  className="w-16 px-2 py-1 text-sm border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  disabled={isTimerActive}
+                />
+                <span className="absolute right-1 top-1/2 transform -translate-y-1/2 text-xs text-gray-400">m</span>
+              </div>
+              
+              <button
+                onClick={() => startTimer(parseInt(customMinutes) || 25)}
+                disabled={isTimerActive || !customMinutes}
+                className="px-3 py-1 text-sm bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all"
+                title={`Start ${customMinutes || 25}min timer ${!isPlaying ? '+ auto-play music' : ''}`}
+              >
+                <span className="flex items-center gap-1">
+                  Start
+                  {!isPlaying && <span className="text-xs">♪</span>}
+                </span>
+              </button>
             </div>
             
-            <button
-              onClick={() => startTimer(parseInt(customMinutes) || 25)}
-              disabled={isTimerActive || !customMinutes}
-              className="px-3 py-1 text-sm bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all"
-              title={`Start ${customMinutes || 25}min timer ${!isPlaying ? '+ auto-play music' : ''}`}
-            >
-              <span className="flex items-center gap-1">
-                Start
-                {!isPlaying && <span className="text-xs">♪</span>}
-              </span>
-            </button>
-            
             {/* Preset Buttons */}
-            <div className="flex gap-1">
+            <div className="flex flex-wrap gap-1 justify-center lg:justify-start">
               {[3, 5, 25, 30, 45].map((minutes) => {
                 const isPomodoro = minutes === 25
                 return (
@@ -222,7 +226,7 @@ export default function PlayerControls({ isPlaying, onPlayPause, onStop, onAutoP
         </div>
 
         {/* Player Status & Immersive Button */}
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col space-y-2 sm:space-y-0 sm:flex-row sm:items-center sm:gap-4 justify-center lg:justify-start">
           <div className="flex items-center gap-2 text-sm">
             <div className={`w-2 h-2 rounded-full ${
               isPlaying ? 'bg-green-500' : 'bg-gray-400'
@@ -247,9 +251,9 @@ export default function PlayerControls({ isPlaying, onPlayPause, onStop, onAutoP
       {/* Timer Display & Controls */}
       {isTimerActive && (
         <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg">
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col space-y-4 sm:space-y-0 sm:flex-row sm:items-center sm:gap-4">
             {/* Circular Progress */}
-            <div className="relative w-16 h-16 flex-shrink-0">
+            <div className="relative w-16 h-16 flex-shrink-0 mx-auto sm:mx-0">
               <svg className="w-16 h-16 transform -rotate-90" viewBox="0 0 36 36">
                 {/* Background circle */}
                 <path
@@ -285,7 +289,7 @@ export default function PlayerControls({ isPlaying, onPlayPause, onStop, onAutoP
             </div>
             
             {/* Timer Info & Controls */}
-            <div className="flex-1 flex items-center justify-between">
+            <div className="flex-1 flex flex-col space-y-3 sm:space-y-0 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex flex-col">
                 <div className="flex items-center gap-2 text-sm">
                   <div className={`w-2 h-2 rounded-full ${
@@ -301,7 +305,7 @@ export default function PlayerControls({ isPlaying, onPlayPause, onStop, onAutoP
               </div>
               
               {/* Timer Control Buttons */}
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 justify-center sm:justify-end">
                 <button
                   onClick={toggleTimerPause}
                   className="flex items-center gap-1 px-3 py-2 text-sm bg-white border border-gray-200 rounded-md hover:bg-gray-50 transition-all shadow-sm"
