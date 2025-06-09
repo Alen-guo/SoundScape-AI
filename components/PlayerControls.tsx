@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useRef, useEffect } from 'react'
+import { useTranslation } from '../contexts/LanguageContext'
 import { Play, Pause, Square, RotateCcw, Timer, Clock, PauseCircle, PlayCircle, Maximize2 } from 'lucide-react'
 import ImmersiveClock from './ImmersiveClock'
 
@@ -12,6 +13,7 @@ interface PlayerControlsProps {
 }
 
 export default function PlayerControls({ isPlaying, onPlayPause, onStop, onAutoPlay }: PlayerControlsProps) {
+  const { t } = useTranslation()
   const [customMinutes, setCustomMinutes] = useState<string>('25')
   const [totalSeconds, setTotalSeconds] = useState<number>(0) // 总时间（秒）
   const [remainingSeconds, setRemainingSeconds] = useState<number>(0) // 剩余时间（秒）
@@ -132,7 +134,7 @@ export default function PlayerControls({ isPlaying, onPlayPause, onStop, onAutoP
   return (
     <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
       <div className="flex items-center gap-3 mb-4">
-        <h2 className="text-xl font-semibold text-gray-800">🎮 Playback Controls</h2>
+        <h2 className="text-xl font-semibold text-gray-800">{t.playerControls.title}</h2>
       </div>
       <div className="flex flex-col space-y-4 lg:space-y-0 lg:flex-row lg:items-center lg:gap-6">
         {/* 主控制按钮 */}
@@ -155,7 +157,7 @@ export default function PlayerControls({ isPlaying, onPlayPause, onStop, onAutoP
           <button
             onClick={() => window.location.reload()}
             className="w-12 h-12 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center transition-all"
-            title="Reset all settings"
+            title={t.playerControls.resetButton}
           >
             <RotateCcw className="w-6 h-6 text-gray-600" />
           </button>
@@ -165,7 +167,7 @@ export default function PlayerControls({ isPlaying, onPlayPause, onStop, onAutoP
         <div className="flex flex-col space-y-3 lg:space-y-0 lg:flex-row lg:items-center lg:gap-4 w-full">
           <div className="flex items-center gap-2 justify-center lg:justify-start">
             <Timer className="w-4 h-4 text-gray-600" />
-            <span className="text-sm text-gray-600">Timer:</span>
+            <span className="text-sm text-gray-600">{t.playerControls.timer}:</span>
           </div>
           
           {/* Custom Timer Input + Preset Buttons */}
@@ -189,10 +191,10 @@ export default function PlayerControls({ isPlaying, onPlayPause, onStop, onAutoP
                 onClick={() => startTimer(parseInt(customMinutes) || 25)}
                 disabled={isTimerActive || !customMinutes}
                 className="px-3 py-1 text-sm bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all"
-                title={`Start ${customMinutes || 25}min timer ${!isPlaying ? '+ auto-play music' : ''}`}
+                title={`${t.playerControls.startTimer} ${customMinutes || 25}${t.common.minute} ${!isPlaying ? t.playerControls.startTimerWithMusic : ''}`}
               >
                 <span className="flex items-center gap-1">
-                  Start
+                  {t.playerControls.startTimer}
                   {!isPlaying && <span className="text-xs">♪</span>}
                 </span>
               </button>
@@ -212,7 +214,7 @@ export default function PlayerControls({ isPlaying, onPlayPause, onStop, onAutoP
                         ? 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 hover:scale-105 hover:shadow-lg text-white shadow-md disabled:from-red-300 disabled:to-red-300 border border-red-400'
                         : 'bg-gray-100 text-gray-600 hover:bg-gray-200 hover:scale-105 disabled:bg-gray-200'
                     } disabled:cursor-not-allowed disabled:transform-none`}
-                    title={isPomodoro ? 'Pomodoro Focus Timer (25 min)' : `${minutes} minutes timer`}
+                    title={isPomodoro ? t.playerControls.pomodoroTimer : `${minutes} ${t.common.minutes} ${t.playerControls.timer}`}
                   >
                     <span className="flex items-center gap-1">
                       {isPomodoro && <span className="text-xs">🍅</span>}
@@ -232,7 +234,7 @@ export default function PlayerControls({ isPlaying, onPlayPause, onStop, onAutoP
               isPlaying ? 'bg-green-500' : 'bg-gray-400'
             }`} />
             <span className="text-gray-600">
-              {isPlaying ? 'Playing' : 'Stopped'}
+              {isPlaying ? t.playerControls.playing : t.playerControls.stopped}
             </span>
           </div>
           
@@ -240,10 +242,10 @@ export default function PlayerControls({ isPlaying, onPlayPause, onStop, onAutoP
           <button
             onClick={() => setIsImmersiveOpen(true)}
             className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white rounded-lg transition-all hover:shadow-lg hover:scale-105 transform"
-            title="Enter Immersive Clock Mode"
+            title={t.playerControls.immersiveTitle}
           >
             <Maximize2 className="w-4 h-4" />
-            <span className="text-sm font-medium">Immersive</span>
+            <span className="text-sm font-medium">{t.playerControls.immersive}</span>
           </button>
         </div>
       </div>
@@ -296,11 +298,11 @@ export default function PlayerControls({ isPlaying, onPlayPause, onStop, onAutoP
                     isTimerPaused ? 'bg-yellow-500' : 'bg-green-500 animate-pulse'
                   }`} />
                   <span className="text-gray-600">
-                    {isTimerPaused ? 'Timer Paused' : 'Timer Running'}
+                    {isTimerPaused ? t.playerControls.timerPaused : t.playerControls.timerRunning}
                   </span>
                 </div>
                 <div className="text-xs text-gray-500 mt-1">
-                  Total: {formatTime(totalSeconds)}
+                  {t.playerControls.total}: {formatTime(totalSeconds)}
                 </div>
               </div>
               
@@ -313,12 +315,12 @@ export default function PlayerControls({ isPlaying, onPlayPause, onStop, onAutoP
                   {isTimerPaused ? (
                     <>
                       <PlayCircle className="w-4 h-4 text-green-600" />
-                      <span>Resume</span>
+                      <span>{t.playerControls.resume}</span>
                     </>
                   ) : (
                     <>
                       <PauseCircle className="w-4 h-4 text-yellow-600" />
-                      <span>Pause</span>
+                      <span>{t.playerControls.pause}</span>
                     </>
                   )}
                 </button>
@@ -328,7 +330,7 @@ export default function PlayerControls({ isPlaying, onPlayPause, onStop, onAutoP
                   className="flex items-center gap-1 px-3 py-2 text-sm bg-white border border-gray-200 rounded-md hover:bg-gray-50 transition-all shadow-sm"
                 >
                   <RotateCcw className="w-4 h-4 text-gray-600" />
-                  <span>Reset</span>
+                  <span>{t.playerControls.reset}</span>
                 </button>
               </div>
             </div>

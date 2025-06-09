@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import { useTranslation } from '../contexts/LanguageContext'
 import AudioMixer from '../components/AudioMixer'
 import ScenePresets from '../components/ScenePresets'
 import AIPrompt from '../components/AIPrompt'
@@ -8,12 +9,13 @@ import PlayerControls from '../components/PlayerControls'
 import Header from '../components/Header'
 
 export default function HomePage() {
+  const { t, isLoading } = useTranslation()
   const [volumes, setVolumes] = useState<Record<string, number>>({})
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentScene, setCurrentScene] = useState<string>('')
   const [isTimerActive, setIsTimerActive] = useState(false)
-
-  // 保存用户设置到localStorage
+  
+  // 保存用户设置到localStorage - 必须在条件渲染之前
   useEffect(() => {
     const savedVolumes = localStorage.getItem('soundscape-volumes')
     if (savedVolumes) {
@@ -24,6 +26,18 @@ export default function HomePage() {
   useEffect(() => {
     localStorage.setItem('soundscape-volumes', JSON.stringify(volumes))
   }, [volumes])
+  
+  // 显示加载状态 - 所有hooks调用后再进行条件渲染
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    )
+  }
 
   const handleVolumeChange = (soundId: string, volume: number) => {
     setVolumes(prev => ({ ...prev, [soundId]: volume }))
@@ -61,9 +75,9 @@ export default function HomePage() {
           waves: 0.2
         }
         setVolumes(defaultScene)
-        setCurrentScene('🍅 Timer Started - Auto-Applied Default Focus Mix (Rain + Fireplace + Wind + Ocean)')
+        setCurrentScene(t.playerControls.timerStarted)
       } else {
-        setCurrentScene('🍅 Timer Started - Auto Playing')
+        setCurrentScene(t.playerControls.timerStartedAutoPlay)
       }
     }
   }
@@ -81,7 +95,7 @@ export default function HomePage() {
           waves: 0.2
         }
         setVolumes(defaultScene)
-        setCurrentScene('🎵 Default Focus Mix Applied - No empty play! (Rain + Fireplace + Wind + Ocean)')
+        setCurrentScene(t.playerControls.defaultFocusMix)
       }
       setIsPlaying(true)
     } else {
@@ -106,13 +120,13 @@ export default function HomePage() {
                 : 'bg-blue-50 border border-blue-200'
             }`}>
               <p className={`${
-                currentScene.includes('Default Focus Mix') || currentScene.includes('Auto-Applied')
+                currentScene.includes('Default Focus Mix') || currentScene.includes('Auto-Applied') || currentScene.includes(t.playerControls.autoApplied)
                   ? 'text-green-800'
                   : 'text-blue-800'
               }`}>
-                🎵 Current Scene: <span className="font-semibold">{currentScene}</span>
-                {(currentScene.includes('Default Focus Mix') || currentScene.includes('Auto-Applied')) && (
-                  <span className="ml-2 text-xs bg-green-200 text-green-700 px-2 py-1 rounded-full">Auto-Applied</span>
+                {t.playerControls.currentScene}: <span className="font-semibold">{currentScene}</span>
+                {(currentScene.includes('Default Focus Mix') || currentScene.includes('Auto-Applied') || currentScene.includes(t.playerControls.autoApplied)) && (
+                  <span className="ml-2 text-xs bg-green-200 text-green-700 px-2 py-1 rounded-full">{t.playerControls.autoApplied}</span>
                 )}
               </p>
             </div>
@@ -144,13 +158,13 @@ export default function HomePage() {
             <div className="absolute inset-0 bg-white/50 backdrop-blur-sm rounded-xl z-10 flex items-center justify-center">
               <div className="text-center bg-white rounded-lg p-6 shadow-lg border border-gray-200">
                 <div className="text-4xl mb-3">🚧</div>
-                <h3 className="text-lg font-semibold text-gray-800 mb-2">AI Feature Coming Soon!</h3>
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">{t.aiFeature.comingSoon}</h3>
                 <p className="text-gray-600 text-sm mb-3">
-                  We're working hard to bring you AI-powered soundscape generation.
+                  {t.aiFeature.inDevelopment}
                 </p>
                 <div className="flex items-center justify-center gap-2 text-xs text-gray-500">
                   <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-                  <span>In Development</span>
+                  <span>{t.aiFeature.developmentStatus}</span>
                 </div>
               </div>
             </div>
@@ -162,9 +176,9 @@ export default function HomePage() {
 
         {/* Footer */}
         <footer className="mt-16 text-center text-gray-500 space-y-2">
-          <p>Built with ❤️ for better focus and relaxation</p>
+          <p>{t.footer.builtWith}</p>
           <p className="text-sm text-gray-400">
-            🤖 AI-powered features coming soon • Stay tuned for smart soundscape generation
+            {t.footer.aiComing}
           </p>
         </footer>
       </div>

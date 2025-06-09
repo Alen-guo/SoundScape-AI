@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react'
+import { useTranslation } from '../contexts/LanguageContext'
 import { Volume2, VolumeX, Square } from 'lucide-react'
 import { Howl } from 'howler'
 
@@ -21,22 +22,25 @@ interface AudioMixerProps {
   isTimerActive?: boolean
 }
 
-const SOUNDS: Sound[] = [
-  { id: 'rain', name: 'Rain', emoji: '🌧️', url: '/sounds/rain.mp4', color: 'from-blue-400 to-blue-600' },
-  { id: 'thunder', name: 'Thunder', emoji: '⛈️', url: '/sounds/thunder.mp4', color: 'from-gray-500 to-gray-700' },
-  { id: 'fire', name: 'Fireplace', emoji: '🔥', url: '/sounds/fire.mp4', color: 'from-orange-400 to-red-600' },
-  { id: 'wind', name: 'Wind', emoji: '💨', url: '/sounds/wind.mp4', color: 'from-gray-300 to-gray-500' },
-  { id: 'waves', name: 'Ocean Waves', emoji: '🌊', url: '/sounds/waves.mp4', color: 'from-cyan-400 to-blue-500' },
-  { id: 'crickets', name: 'Crickets', emoji: '🦗', url: '/sounds/crickets.mp4', color: 'from-green-500 to-green-700' },
-  { id: 'people', name: 'Coffee Shop', emoji: '☕', url: '/sounds/people.mp4', color: 'from-amber-400 to-brown-500' },
-  { id: 'sbowl', name: 'Singing Bowl', emoji: '🎎', url: '/sounds/sbowl.mp4', color: 'from-purple-400 to-indigo-600' },
-]
+// 将SOUNDS移到组件内部以便使用翻译
 
 export default function AudioMixer({ volumes, onVolumeChange, isPlaying, onStop, isTimerActive = false }: AudioMixerProps) {
+  const { t } = useTranslation()
   const soundsRef = useRef<Record<string, Howl>>({})
   const [loadedSounds, setLoadedSounds] = useState<Record<string, boolean>>({})
   const [loadErrors, setLoadErrors] = useState<Record<string, string>>({})
   const [isStopPressed, setIsStopPressed] = useState(false)
+  
+  const SOUNDS: Sound[] = [
+    { id: 'rain', name: t.audioMixer.sounds.rain, emoji: '🌧️', url: '/sounds/rain.mp4', color: 'from-blue-400 to-blue-600' },
+    { id: 'thunder', name: t.audioMixer.sounds.thunder, emoji: '⛈️', url: '/sounds/thunder.mp4', color: 'from-gray-500 to-gray-700' },
+    { id: 'fire', name: t.audioMixer.sounds.fire, emoji: '🔥', url: '/sounds/fire.mp4', color: 'from-orange-400 to-red-600' },
+    { id: 'wind', name: t.audioMixer.sounds.wind, emoji: '💨', url: '/sounds/wind.mp4', color: 'from-gray-300 to-gray-500' },
+    { id: 'waves', name: t.audioMixer.sounds.waves, emoji: '🌊', url: '/sounds/waves.mp4', color: 'from-cyan-400 to-blue-500' },
+    { id: 'crickets', name: t.audioMixer.sounds.crickets, emoji: '🦗', url: '/sounds/crickets.mp4', color: 'from-green-500 to-green-700' },
+    { id: 'people', name: t.audioMixer.sounds.people, emoji: '☕', url: '/sounds/people.mp4', color: 'from-amber-400 to-brown-500' },
+    { id: 'sbowl', name: t.audioMixer.sounds.sbowl, emoji: '🎎', url: '/sounds/sbowl.mp4', color: 'from-purple-400 to-indigo-600' },
+  ]
 
   useEffect(() => {
     // Initialize audio objects with optimized settings
@@ -205,8 +209,8 @@ export default function AudioMixer({ volumes, onVolumeChange, isPlaying, onStop,
     <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h2 className="text-xl font-semibold text-gray-800">🎚️ Sound Mixer</h2>
-          <p className="text-gray-600 mt-1">Adjust the volume of each sound to create your perfect mix</p>
+          <h2 className="text-xl font-semibold text-gray-800">{t.audioMixer.title}</h2>
+          <p className="text-gray-600 mt-1">{t.audioMixer.subtitle}</p>
         </div>
         
         {/* Stop All Button */}
@@ -219,14 +223,14 @@ export default function AudioMixer({ volumes, onVolumeChange, isPlaying, onStop,
               ? 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 hover:shadow-lg hover:scale-105 text-white active:scale-95'
               : 'bg-gray-100 hover:bg-gray-200 hover:scale-105 text-gray-600 active:scale-95'
           } disabled:cursor-not-allowed`}
-          title={isPlaying || isTimerActive ? 'Stop all sounds and timer' : 'Stop (nothing playing)'}
+          title={isPlaying || isTimerActive ? t.audioMixer.stopButton : 'Stop (nothing playing)'}
         >
           <Square 
             className={`w-4 h-4 transition-all duration-200 ${
               isPlaying || isTimerActive ? 'text-white' : 'text-gray-600'
             } ${isStopPressed ? 'animate-pulse' : ''}`} 
           />
-          <span className="text-sm font-medium">Stop All</span>
+          <span className="text-sm font-medium">{t.audioMixer.stopButton}</span>
         </button>
       </div>
       
@@ -247,7 +251,7 @@ export default function AudioMixer({ volumes, onVolumeChange, isPlaying, onStop,
                   onClick={retryFailedAudio}
                   className="text-xs px-2 py-1 bg-red-100 hover:bg-red-200 text-red-700 rounded transition-colors"
                 >
-                  Retry
+                  {t.audioMixer.retryButton}
                 </button>
               </>
             )}
@@ -309,28 +313,30 @@ interface SoundControlProps {
 }
 
 function SoundControl({ sound, volume, onVolumeChange, isPlaying, isLoaded, loadError, onTest }: SoundControlProps) {
+  const { t } = useTranslation()
+  
   return (
-    <div className="bg-gray-50 rounded-lg p-4 space-y-3">
+    <div className="bg-gray-50 rounded-lg p-4 h-52">
       {/* Sound icon and name */}
-      <div className="text-center">
+      <div className="text-center mb-4">
         <div 
-          className={`w-12 h-12 bg-gradient-to-br ${sound.color} rounded-full flex items-center justify-center mx-auto mb-2 cursor-pointer transition-all ${
+          className={`w-12 h-12 bg-gradient-to-br ${sound.color} rounded-full flex items-center justify-center mx-auto mb-3 cursor-pointer transition-all ${
             isPlaying ? 'animate-pulse-slow' : ''
           } ${!isLoaded ? 'opacity-50' : 'hover:scale-105'}`}
           onClick={onTest}
-          title={isLoaded ? 'Click to test sound' : 'Audio loading...'}
+          title={isLoaded ? t.audioMixer.testButton : `${t.audioMixer.loadingText}...`}
         >
           <span className="text-xl">{sound.emoji}</span>
         </div>
         <h3 className="font-medium text-gray-800 text-sm">{sound.name}</h3>
         
         {/* 加载状态指示器 */}
-        <div className="text-xs mt-1">
+        <div className="text-xs mt-2 h-4">
           {!isLoaded && !loadError && (
-            <span className="text-yellow-600">Loading...</span>
+            <span className="text-yellow-600">{t.audioMixer.loadingText}...</span>
           )}
           {isLoaded && (
-            <span className="text-green-600">Ready</span>
+            <span className="text-green-600">{t.audioMixer.loadedText}</span>
           )}
           {loadError && (
             <span className="text-red-600" title={loadError}>Error</span>
@@ -339,7 +345,7 @@ function SoundControl({ sound, volume, onVolumeChange, isPlaying, isLoaded, load
       </div>
 
       {/* Volume slider */}
-      <div className="space-y-2">
+      <div className="space-y-3 mb-4">
         <input
           type="range"
           min="0"
@@ -361,23 +367,23 @@ function SoundControl({ sound, volume, onVolumeChange, isPlaying, isLoaded, load
         </div>
       </div>
 
-      {/* Playing status indicator */}
-      {isPlaying && (
-        <div className="flex justify-center">
-          <div className="flex gap-1">
-            {[...Array(4)].map((_, i) => (
+      {/* Playing status indicator - 底部固定区域 */}
+      <div className="flex justify-center items-end h-5">
+        {isPlaying && (
+          <div className="flex gap-1 items-end">
+            {[6, 10, 8, 12].map((height, i) => (
               <div
                 key={i}
                 className="w-1 bg-blue-500 rounded-full wave-bar"
                 style={{ 
-                  height: `${Math.random() * 12 + 4}px`,
+                  height: `${height}px`,
                   animationDelay: `${i * 0.1}s`
                 }}
               />
             ))}
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   )
 } 

@@ -136,16 +136,16 @@ export default function ImmersiveClock({ isOpen, onClose, timerSeconds = 0, tota
       {/* 关闭按钮 */}
       <button
         onClick={exitImmersive}
-        className="absolute top-8 right-8 p-3 bg-gray-800/30 hover:bg-gray-700/50 rounded-full transition-all duration-300 z-10 backdrop-blur-md"
+        className="absolute top-4 right-4 sm:top-6 sm:right-6 md:top-8 md:right-8 p-2 sm:p-3 bg-gray-800/30 hover:bg-gray-700/50 rounded-full transition-all duration-300 z-10 backdrop-blur-md"
         title="Exit Fullscreen (ESC)"
       >
-        <X className="w-5 h-5 text-gray-300" />
+        <X className="w-4 h-4 sm:w-5 sm:h-5 text-gray-300" />
       </button>
 
       {/* 主时钟显示 */}
-      <div className="flex flex-col items-center space-y-12">
+      <div className="flex flex-col items-center space-y-6 sm:space-y-8 md:space-y-12 px-4 w-full max-w-7xl">
         {/* 数字时钟 */}
-        <div className="flex items-center space-x-8 relative z-10">
+        <div className="flex items-center space-x-2 sm:space-x-4 md:space-x-8 relative z-10 justify-center w-full">
           <TimeDigit value={hours} size="large" />
           <SoftSeparator />
           <TimeDigit value={minutes} size="large" />
@@ -154,24 +154,24 @@ export default function ImmersiveClock({ isOpen, onClose, timerSeconds = 0, tota
         </div>
 
         {/* 日期显示 */}
-        <div className="text-center space-y-3">
-          <div className="text-2xl text-gray-300 font-light tracking-wide">{weekday}</div>
-          <div className="text-lg text-gray-400 font-light">{month} {date}, {year}</div>
+        <div className="text-center space-y-2 sm:space-y-3">
+          <div className="text-lg sm:text-xl md:text-2xl text-gray-300 font-light tracking-wide">{weekday}</div>
+          <div className="text-sm sm:text-base md:text-lg text-gray-400 font-light">{month} {date}, {year}</div>
         </div>
 
         {/* 定时器显示 */}
         {isTimerActive && (
-          <div className="text-center space-y-8 mt-20 relative z-10">
-            <div className="text-xl text-cyan-300 mb-8 font-light tracking-wider">
+          <div className="text-center space-y-4 sm:space-y-6 md:space-y-8 mt-8 sm:mt-12 md:mt-20 relative z-10 w-full">
+            <div className="text-base sm:text-lg md:text-xl text-cyan-300 mb-4 sm:mb-6 md:mb-8 font-light tracking-wider">
               🍅 POMODORO TIMER
             </div>
             
             {/* 定时器数字显示 */}
-            <div className="relative">
-              <div className="bg-gradient-to-br from-gray-800/30 via-gray-900/40 to-black/50 rounded-3xl p-8 shadow-2xl backdrop-blur-md">
-                <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-400/5 to-indigo-400/5"></div>
+            <div className="relative px-2">
+              <div className="bg-gradient-to-br from-gray-800/30 via-gray-900/40 to-black/50 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 shadow-2xl backdrop-blur-md">
+                <div className="absolute inset-0 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-cyan-400/5 to-indigo-400/5"></div>
                 <span 
-                  className="text-6xl md:text-7xl font-light text-cyan-100 font-mono tracking-wider relative z-10"
+                  className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-light text-cyan-100 font-mono tracking-wider relative z-10"
                   style={{ 
                     textShadow: '0 0 30px rgba(34, 211, 238, 0.3), 0 0 60px rgba(34, 211, 238, 0.1)' 
                   }}
@@ -182,7 +182,7 @@ export default function ImmersiveClock({ isOpen, onClose, timerSeconds = 0, tota
             </div>
             
             {/* 进度条 */}
-            <div className="w-96 h-2 bg-gray-800/30 rounded-full overflow-hidden backdrop-blur-sm">
+            <div className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg h-2 bg-gray-800/30 rounded-full overflow-hidden backdrop-blur-sm mx-auto">
               <div 
                 className="h-full bg-gradient-to-r from-cyan-400 via-indigo-500 to-purple-500 transition-all duration-1000 rounded-full"
                 style={{ 
@@ -193,7 +193,7 @@ export default function ImmersiveClock({ isOpen, onClose, timerSeconds = 0, tota
             </div>
             
             {/* 剩余时间文字 */}
-            <div className="text-sm text-cyan-300/70 font-light tracking-wide">
+            <div className="text-xs sm:text-sm text-cyan-300/70 font-light tracking-wide">
               {Math.floor(timerSeconds / 60)} MINUTES REMAINING
             </div>
           </div>
@@ -213,13 +213,13 @@ function TimeDigit({ value, size }: TimeDigitProps) {
   const isLarge = size === 'large'
   
   return (
-    <div className="relative">
+    <div className="relative flex-shrink-0">
       <div className="relative flex items-center justify-center">
         <span 
           className={`${
             isLarge 
-              ? 'text-8xl md:text-9xl lg:text-[12rem]' 
-              : 'text-6xl md:text-7xl lg:text-8xl'
+              ? 'text-4xl sm:text-6xl md:text-8xl lg:text-9xl xl:text-[12rem]' 
+              : 'text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl'
           } font-extralight text-white font-mono tracking-wider transition-all duration-700 ease-out`}
           style={{ 
             textShadow: isLarge 
@@ -240,8 +240,8 @@ function TimeDigit({ value, size }: TimeDigitProps) {
           <span 
             className={`${
               isLarge 
-                ? 'text-8xl md:text-9xl lg:text-[12rem]' 
-                : 'text-6xl md:text-7xl lg:text-8xl'
+                ? 'text-4xl sm:text-6xl md:text-8xl lg:text-9xl xl:text-[12rem]' 
+                : 'text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl'
             } font-extralight text-indigo-400 font-mono tracking-wider`}
           >
             {value}

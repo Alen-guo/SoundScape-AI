@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import { useTranslation } from '../contexts/LanguageContext'
 import { Sparkles, Wand2, Brain, Lightbulb } from 'lucide-react'
 
 interface AIPromptProps {

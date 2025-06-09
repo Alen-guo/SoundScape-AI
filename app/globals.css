@@ -81,3 +81,14 @@ body {
 .wave-bar:nth-child(5) {
     animation-delay: 0.4s;
 }
+
+/* 文本行数限制 */
+.line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-height: 1.4;
+    max-height: 2.8em;
+    /* 2行的高度 */
+}
